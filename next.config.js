@@ -5,6 +5,10 @@ const nextConfig = {
             source: '/api/:path*',
             destination: process.env.NEXT_PUBLIC_API_URL + '/:path*',
         },
+        {
+            source: '/ws',
+            destination: process.env.NEXT_PUBLIC_WS_URL,
+        }
     ],
 }
 
