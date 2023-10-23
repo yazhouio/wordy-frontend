@@ -10,6 +10,7 @@ import { closeEvent$, openEvent$ } from "./subjects";
 export const WsContext = React.createContext<IWsContext>({});
 
 export const initWs = (accessToken: string) => {
+  const path = window.location.pathname;
   const WS_ENDPOINT = process.env.NEXT_PUBLIC_WEBSOCKET_URL || "ws://localhost:3000/ws";
 
 
