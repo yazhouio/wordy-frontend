@@ -49,7 +49,6 @@ export default function Login() {
       }),
     })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           res.json().then((data) => {
             const referer = searchParams.get('referer') || '/';
@@ -81,7 +80,6 @@ export default function Login() {
 
   const onBlur: React.FocusEventHandler<any> = (e) => {
     const name = e.target.value;
-    console.log(name);
     if (!name) {
       return;
     }
@@ -94,8 +92,8 @@ export default function Login() {
 
   const userNameProps = register("username", { required: true });
   return (
-    <main className={"w-screen h-screen grid items-center justify-center"}>
-      <Card className={"w-[600px]"}>
+    <main className={"p-4 w-screen h-screen grid items-center"}>
+      <Card className={""}>
         <CardHeader>Login</CardHeader>
         <CardBody>
           <form
@@ -142,9 +140,6 @@ export default function Login() {
             />
             <Button
               type={"submit"}
-              onClick={(e) => {
-                console.log(e);
-              }}
             >
               登录
             </Button>

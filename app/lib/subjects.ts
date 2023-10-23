@@ -1,5 +1,4 @@
 import { EventType, WsRequest } from "@/app/interfaces";
-import { log } from "console";
 import { BehaviorSubject, Observable, Subject, mergeWith } from "rxjs";
 import { filter, scan, skip } from 'rxjs/operators';
 

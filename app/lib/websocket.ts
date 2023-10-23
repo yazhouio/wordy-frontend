@@ -30,7 +30,6 @@ export const initWs = (accessToken: string) => {
         count: 1000,
         resetOnSuccess: true,
         delay: (_, retryCount) => {
-          console.log(`retry attempt: ${retryCount + 1}`);
           return timer((retryCount + 1) * 5000);
         }
       }),

@@ -33,7 +33,6 @@ const ActionButton = (props: ActionButtonProps) => {
   const handlePlay = (path?: string) => {
     setIsPlaying(true)
     setIsLoading(false)
-    console.log(process.env)
     const audio = new Audio(process.env.NEXT_PUBLIC_ENDPOINT! + path)
     audio.play().then(
         () => {

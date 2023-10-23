@@ -15,7 +15,6 @@ const Chat = () => {
       () => {
         const sub = chatList$.subscribe(
             (list: any) => {
-              console.log(list)
               setData(list)
             }
         );

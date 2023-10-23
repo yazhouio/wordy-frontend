@@ -8,7 +8,6 @@ export const useInitWs = (accessToken?: string) => {
   const [send, setSend] = React.useState<IWsContext>({});
 
   React.useLayoutEffect(() => {
-    console.log(111, accessToken)
     if (!accessToken) {
       return;
     }
