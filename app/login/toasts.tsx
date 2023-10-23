@@ -9,6 +9,7 @@ const open = (props: {
     type: 'success' | 'error' | 'info' | 'warning',
 }) => {
     const root = createRoot(document.getElementById('base-modal') as HTMLElement);
+    
     const Totast = (props: {
         title: string,
         content: string,
