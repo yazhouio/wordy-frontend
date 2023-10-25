@@ -49,7 +49,7 @@ export default function Login() {
     });
 
     const url = process.env.NEXT_PUBLIC_ENDPOINT;
-    fetch(url + "/api/login", {
+    fetch(url + "api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export default function Login() {
       .then((res) => {
         if (res.status === 200) {
           res.json().then((data) => {
-            const referer = searchParams.get("referer") || "/";
+            const referer = searchParams?.get("referer") || "/";
             setToken(data);
             router.push(referer);
           });
@@ -85,7 +85,7 @@ export default function Login() {
 
   const getSalt = async (name: string) => {
     const url = process.env.NEXT_PUBLIC_ENDPOINT;
-    const res = await fetch(`${url}/api/${name}/salt`);
+    const res = await fetch(`${url}api/${name}/salt`);
     const data = await res.json();
     return data.salt;
   };
@@ -96,7 +96,7 @@ export default function Login() {
       return;
     }
     const url = process.env.NEXT_PUBLIC_ENDPOINT;
-    fetch(`${url}/api/${name}/salt`)
+    fetch(`${url}api/${name}/salt`)
       .then((e) => e.json())
       .then((res) => {
         setSalt(res.salt);
