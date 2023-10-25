@@ -8,10 +8,7 @@ import { closeEvent$, openEvent$ } from "./subjects";
 export const WsContext = React.createContext<IWsContext>({});
 
 export const initWs = (accessToken: string) => {
-  const WS_ENDPOINT =
-    (window.location.protocol === "http:" ? "ws://" : "wss://") +
-    window.location.host +
-    "/ws";
+  const WS_ENDPOINT = process.env.NEXT_PUBLIC_WS_URL || "";
 
   const connection$: WebSocketSubject<WsRequest> = webSocket({
     url: `${WS_ENDPOINT}?accessToken=${accessToken}`,
