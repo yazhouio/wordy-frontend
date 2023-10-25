@@ -48,7 +48,8 @@ export default function Login() {
       type: argon2.ArgonType.Argon2id,
     });
 
-    fetch("/api/login", {
+    const url = process.env.NEXT_PUBLIC_ENDPOINT;
+    fetch(url + "/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +84,8 @@ export default function Login() {
   };
 
   const getSalt = async (name: string) => {
-    const res = await fetch(`/api/${name}/salt`);
+    const url = process.env.NEXT_PUBLIC_ENDPOINT;
+    const res = await fetch(`${url}/api/${name}/salt`);
     const data = await res.json();
     return data.salt;
   };
@@ -93,7 +95,8 @@ export default function Login() {
     if (!name) {
       return;
     }
-    fetch(`/api/${name}/salt`)
+    const url = process.env.NEXT_PUBLIC_ENDPOINT;
+    fetch(`${url}/api/${name}/salt`)
       .then((e) => e.json())
       .then((res) => {
         setSalt(res.salt);
