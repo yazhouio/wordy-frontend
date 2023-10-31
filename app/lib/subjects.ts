@@ -19,11 +19,14 @@ export const speech$: Observable<Record<string, string>> = message$.pipe(
         }, {} as Record<string, string>),
 )
 
-export const chatList$ = message$.pipe(
-    mergeWith(localMessage$),
+export const chats$ = message$.pipe(
+  mergeWith(localMessage$),
     filter(
         (message: WsRequest) => message.eventType === "chat"
-    ),
+    )
+)
+
+export const chatList$ = chats$.pipe(
     scan(
         (acc: WsRequest[], currentValue) => {
           const accumulatedData = [...acc, currentValue];

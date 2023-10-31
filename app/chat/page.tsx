@@ -6,12 +6,36 @@ import { chatList$, closeEvent$, openEvent$ } from "@/app/lib/subjects";
 import { WsContext } from "@/app/lib/websocket";
 import { Button, Card, CardBody, Input } from "@nextui-org/react";
 import * as React from "react";
+import db from "../lib/db";
 
 const Chat = () => {
   const { send } = React.useContext(WsContext);
   const [data, setData] = React.useState<WsRequest[]>([]);
+  const [initList, setInitList] = React.useState<WsRequest[]>([]);
   const [value, setValue] = React.useState("");
   const [status, setStatus] = React.useState(false);
+
+  const all = React.useMemo(() => {
+    return [...initList, ...data];
+  }, [initList, data]);
+
+  const getDbList = async () => {
+    await db.open();
+    const list = await db
+      .table("chat")
+      .where(["from", "to"])
+      .equals([0, 1])
+      .or("[from+to]")
+      .equals([1, 0])
+      .sortBy("id")
+      // .toArray();
+    setInitList(list);
+  };
+
+  React.useEffect(() => {
+    getDbList();
+  }, []);
+
   React.useEffect(() => {
     const sub = chatList$.subscribe((list: any) => {
       setData(list);
@@ -39,7 +63,7 @@ const Chat = () => {
       <h1 className="flex-none text-foreground">英语启蒙</h1>
       <div className="flex flex-auto overflow-hidden flex-col">
         <div className="flex-auto overflow-auto">
-          {data.map((item, index) => (
+          {all.map((item, index) => (
             <ChatItem
               key={index}
               isMe={item.isMe}
