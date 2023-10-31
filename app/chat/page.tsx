@@ -2,22 +2,30 @@
 
 import ChatItem from "@/app/chat/ChatItem";
 import { EventType, WsRequest } from "@/app/interfaces";
-import { chatList$, closeEvent$, openEvent$ } from "@/app/lib/subjects";
+import {
+  linkStatus$
+} from "@/app/lib/subjects";
 import { WsContext } from "@/app/lib/websocket";
 import { Button, Card, CardBody, Input } from "@nextui-org/react";
+import { useAtom } from "jotai";
+import { atomWithObservable } from "jotai/utils";
 import * as React from "react";
 import db from "../lib/db";
+import { useChatList } from "../lib/hooks";
+
+const linkStatusAtom = atomWithObservable<boolean>(() => linkStatus$);
 
 const Chat = () => {
   const { send } = React.useContext(WsContext);
-  const [data, setData] = React.useState<WsRequest[]>([]);
   const [initList, setInitList] = React.useState<WsRequest[]>([]);
   const [value, setValue] = React.useState("");
-  const [status, setStatus] = React.useState(false);
+  const [status] = useAtom(linkStatusAtom);
+  const { list } = useChatList(1, 0); // todo: 从cookie中获取
 
+  console.log(status)
   const all = React.useMemo(() => {
-    return [...initList, ...data];
-  }, [initList, data]);
+    return [...initList, ...list];
+  }, [initList, list]);
 
   const getDbList = async () => {
     await db.open();
@@ -27,35 +35,13 @@ const Chat = () => {
       .equals([0, 1])
       .or("[from+to]")
       .equals([1, 0])
-      .sortBy("id")
-      // .toArray();
+      .sortBy("id");
+    // .toArray();
     setInitList(list);
   };
 
   React.useEffect(() => {
     getDbList();
-  }, []);
-
-  React.useEffect(() => {
-    const sub = chatList$.subscribe((list: any) => {
-      setData(list);
-    });
-    return () => {
-      sub.unsubscribe();
-    };
-  }, []);
-
-  React.useEffect(() => {
-    let openSub = openEvent$.subscribe(() => {
-      setStatus(true);
-    });
-    let closeSub = closeEvent$.subscribe(() => {
-      setStatus(false);
-    });
-    return () => {
-      openSub.unsubscribe();
-      closeSub.unsubscribe();
-    };
   }, []);
 
   return (
@@ -92,7 +78,7 @@ const Chat = () => {
                   event: { chat: value },
                   eventType: EventType.Chat,
                   to: 0,
-                  msgId: "adad",
+                  msgId: Math.random().toString(32).slice(2),
                 });
               }}
             >

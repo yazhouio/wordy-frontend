@@ -1,17 +1,14 @@
 "use client";
-import "./globals.css";
 import { Providers } from "@/app/providers";
-import type { Metadata } from "next";
+import { getCookie } from "cookies-next";
 import { Inter } from "next/font/google";
 import React from "react";
+import "./globals.css";
 import { useInitWs } from "./lib/hooks";
+import { chats$, closeEvent$ } from "./lib/subjects";
 import { WsContext } from "./lib/websocket";
-import { getCookie } from "cookies-next";
-import { chats$, closeEvent$, login$ } from "./lib/subjects";
-import { Router } from "next/router";
 import Toasts from "./login/toasts";
 const db = require("./lib/db").default;
-// const argon2 = require('argon2-browser')
 
 const inter = Inter({ subsets: ["latin"] });
 
