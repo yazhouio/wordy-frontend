@@ -71,7 +71,7 @@ const ActionButton = (props: ActionButtonProps) => {
             tap((message) => {
               handlePlay(message.event.speech);
             }),
-            timeout(2000),
+            timeout(15000),
             catchError((err) => {
               setIsLoading(false);
               toasts.open({
