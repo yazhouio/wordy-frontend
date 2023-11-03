@@ -16,8 +16,7 @@ import clsx from "clsx";
 import * as React from "react";
 import "./styles.css";
 import { BehaviorSubject, EMPTY, empty, switchMap } from "rxjs";
-import { catchError, filter, tap, timeout } from "rxjs/operators";
-import { time } from "console";
+import { catchError, filter, take, tap, timeout } from "rxjs/operators";
 import toasts from "../login/toasts";
 
 interface ChatItemProps {
@@ -68,10 +67,11 @@ const ActionButton = (props: ActionButtonProps) => {
                 message.replyMsgId === msgId
               );
             }),
-            timeout(10000),
+            take(1),
             tap((message) => {
               handlePlay(message.event.speech);
             }),
+            timeout(2000),
             catchError((err) => {
               setIsLoading(false);
               toasts.open({

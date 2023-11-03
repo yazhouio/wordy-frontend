@@ -22,7 +22,6 @@ const Chat = () => {
   const [status] = useAtom(linkStatusAtom);
   const { list } = useChatList(1, 0); // todo: 从cookie中获取
 
-  console.log(status)
   const all = React.useMemo(() => {
     return [...initList, ...list];
   }, [initList, list]);
